@@ -153,6 +153,18 @@ document.fonts.load("16px emerald").then(() => document.fonts.load("10px pkmnems
 
 let game;
 
+// import enums
+// import { TempBattleStat, getTempBattleStatBoosterItemName, getTempBattleStatName } from "./data/temp-battle-stat";
+// import { PokeballType } from "./data/pokeball";
+// import { ModifierType } from "./modifier/modifier-type";
+// // import functions and consts
+// import { modifierTypes, TempBattleStatBoosterModifierType } from "./modifier/modifier-type";
+import { getItems } from "./database/items";
+
+const exportData = () => {
+  console.log(JSON.stringify(getItems(), null, 2));
+};
+
 const startGame = () => {
   game = new Phaser.Game(config);
   game.sound.pauseOnBlur = false;
@@ -161,10 +173,12 @@ const startGame = () => {
 fetch("/manifest.json")
   .then(res => res.json())
   .then(jsonResponse => {
+    exportData();
     startGame();
     game["manifest"] = jsonResponse.manifest;
   }).catch(() => {
     // Manifest not found (likely local build)
+    exportData();
     startGame();
   });
 
